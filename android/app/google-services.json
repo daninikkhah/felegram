@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "202843968478",
+    "firebase_url": "https://felegram-c3e06.firebaseio.com",
+    "project_id": "felegram-c3e06",
+    "storage_bucket": "felegram-c3e06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202843968478:android:6826cd138a26d1fe15034f",
+        "android_client_info": {
+          "package_name": "com.chaosmaster.felegram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202843968478-g0omclucs8d1u6n8djv7thamomgnae3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKOyTTanrMc5x59vM--Q9mkSBaMOyAOgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202843968478-g0omclucs8d1u6n8djv7thamomgnae3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202843968478:android:960c35813e159d7015034f",
+        "android_client_info": {
+          "package_name": "dsf.fsd.fs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202843968478-g0omclucs8d1u6n8djv7thamomgnae3a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKOyTTanrMc5x59vM--Q9mkSBaMOyAOgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202843968478-g0omclucs8d1u6n8djv7thamomgnae3a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
