@@ -1,6 +1,41 @@
 import 'package:flutter/material.dart';
 
-class AuthenticationForm extends StatelessWidget {
+class AuthenticationForm extends StatefulWidget {
+  AuthenticationForm(this.submitAuthentication);
+  final void Function(
+      {String email,
+      String username,
+      String password,
+      bool isLoginMode}) submitAuthentication;
+  @override
+  _AuthenticationFormState createState() => _AuthenticationFormState();
+}
+
+class _AuthenticationFormState extends State<AuthenticationForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _isLoginMode = false;
+  String _username;
+  String _email;
+  String _password;
+
+  void _changeAuthenticationState() {
+    setState(() {
+      _isLoginMode = !_isLoginMode;
+    });
+  }
+
+  void _submit() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      widget.submitAuthentication(
+        email: _email,
+        username: _username,
+        password: _password,
+        isLoginMode: _isLoginMode,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -10,32 +45,50 @@ class AuthenticationForm extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [
                   TextFormField(
+                    key: ValueKey('email'),
+                    validator: (value) =>
+                        (value == null) || !value.contains('@')
+                            ? 'please enter a valid email address'
+                            : null,
+                    onSaved: (value) => _email = value,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Email address'),
                   ),
+                  if (_isLoginMode)
+                    TextFormField(
+                      key: ValueKey('username'),
+                      validator: (value) => (value == null || value.length < 4)
+                          ? 'please enter a username with at least 4 letters'
+                          : null,
+                      onSaved: (value) => _username = value,
+                      decoration: InputDecoration(labelText: 'Username'),
+                    ),
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Username'),
-                  ),
-                  TextFormField(
+                    key: ValueKey('password'),
+                    validator: (value) => (value == null || value.length < 7)
+                        ? 'please enter a password with minimum of 6 letters'
+                        : null,
+                    onSaved: (value) => _password = value,
                     obscureText: true,
                     decoration: InputDecoration(labelText: 'Password'),
                   ),
-                  SizedBox(
-                    height: 10,
+                  const SizedBox(
+                    height: 20,
                   ),
                   RaisedButton(
-                    onPressed: () {},
-                    child: const Text('Login'),
-                  ),
-                  SizedBox(
-                    height: 10,
+                    onPressed: _submit,
+                    child: Text(_isLoginMode ? 'Login' : 'sign in'),
                   ),
                   FlatButton(
-                    onPressed: () {},
-                    child: const Text('create new account'),
+                    onPressed: _changeAuthenticationState,
+                    child: Text(_isLoginMode
+                        ? 'create new account'
+                        : 'already have an account'),
+                    textColor: Theme.of(context).primaryColor,
                   ),
                 ],
               ),

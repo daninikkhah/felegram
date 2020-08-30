@@ -8,7 +8,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple, accentColor: Colors.amberAccent),
+        primarySwatch: Colors.pink,
+        accentColor: Colors.deepPurple,
+        backgroundColor: Colors.pink,
+        accentColorBrightness: Brightness.dark,
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              buttonColor: Colors.pink,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+            ),
+      ),
       home: AuthenticationScreen(),
     );
   }
