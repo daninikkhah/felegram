@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AuthenticationForm extends StatefulWidget {
-  AuthenticationForm(this.submitAuthentication);
+  AuthenticationForm(this.submitAuthentication, this.isLoading);
+  final bool isLoading;
   final void Function(
       {BuildContext context,
       String email,
@@ -72,7 +73,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                     ),
                   TextFormField(
                     key: ValueKey('password'),
-                    validator: (value) => (value == null || value.length < 7)
+                    validator: (value) => (value == null || value.length < 6)
                         ? 'please enter a password with minimum of 6 letters'
                         : null,
                     onSaved: (value) => _password = value,
@@ -82,17 +83,20 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   const SizedBox(
                     height: 20,
                   ),
-                  RaisedButton(
-                    onPressed: _submit,
-                    child: Text(_isLoginMode ? 'Login' : 'sign in'),
-                  ),
-                  FlatButton(
-                    onPressed: _changeAuthenticationState,
-                    child: Text(_isLoginMode
-                        ? 'create new account'
-                        : 'already have an account'),
-                    textColor: Theme.of(context).primaryColor,
-                  ),
+                  widget.isLoading
+                      ? CircularProgressIndicator()
+                      : RaisedButton(
+                          onPressed: _submit,
+                          child: Text(_isLoginMode ? 'Login' : 'sign in'),
+                        ),
+                  if (!widget.isLoading)
+                    FlatButton(
+                      onPressed: _changeAuthenticationState,
+                      child: Text(_isLoginMode
+                          ? 'create new account'
+                          : 'already have an account'),
+                      textColor: Theme.of(context).primaryColor,
+                    ),
                 ],
               ),
             ),
