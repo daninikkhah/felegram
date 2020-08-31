@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class AuthenticationForm extends StatefulWidget {
   AuthenticationForm(this.submitAuthentication);
   final void Function(
-      {String email,
+      {BuildContext context,
+      String email,
       String username,
       String password,
       bool isLoginMode}) submitAuthentication;
@@ -29,6 +30,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
       widget.submitAuthentication(
+        context: context,
         email: _email,
         username: _username,
         password: _password,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
 import '../widgets/authentication_form.dart';
 
 class AuthenticationScreen extends StatefulWidget {
@@ -21,31 +20,34 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       String password,
       bool isLoginMode}) async {
     _firebaseAuth = FirebaseAuth.instance;
-
     try {
       isLoginMode
-          ? _firebaseAuth.createUserWithEmailAndPassword(
-              email: email, password: password)
-          : _firebaseAuth.signInWithEmailAndPassword(
-              email: email, password: password);
-    } on PlatformException catch (e) {
-      // TODO
+          ? await _firebaseAuth.createUserWithEmailAndPassword(
+              email: email.trimRight(), password: password.trimRight())
+          : await _firebaseAuth.signInWithEmailAndPassword(
+              email: email.trimRight(), password: password.trimRight());
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = 'an error occurred, please check your credentials.';
+      if (e.message != null) errorMessage = e.message;
+
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
+    } catch (e) {
       print(e);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initializeFirebaseApp,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Scaffold(
-              backgroundColor: Theme.of(context).primaryColor,
-              body: AuthenticationForm(_submitAuthentication),
-            );
-          }
-          return Text('data'); //todo implement error handling
-        });
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: FutureBuilder(
+          future: _initializeFirebaseApp,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) return Text('something went wrong!');
+            if (snapshot.connectionState == ConnectionState.done)
+              return AuthenticationForm(_submitAuthentication);
+            return Center(child: CircularProgressIndicator());
+          }),
+    );
   }
 }
