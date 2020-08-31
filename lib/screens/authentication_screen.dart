@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/authentication_form.dart';
@@ -12,8 +11,6 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   FirebaseAuth _firebaseAuth;
   bool _isLoading = false;
-
-  final Future<FirebaseApp> _initializeFirebaseApp = Firebase.initializeApp();
 
   void _submitAuthentication(
       {BuildContext context,
@@ -58,14 +55,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body: FutureBuilder(
-          future: _initializeFirebaseApp,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) return Text('something went wrong!');
-            if (snapshot.connectionState == ConnectionState.done)
-              return AuthenticationForm(_submitAuthentication, _isLoading);
-            return Center(child: CircularProgressIndicator());
-          }),
+      body: AuthenticationForm(_submitAuthentication, _isLoading),
     );
   }
 }
