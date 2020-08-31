@@ -26,6 +26,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
 
   void _submit() {
     if (_formKey.currentState.validate()) {
+      FocusScope.of(context).unfocus();
       _formKey.currentState.save();
       widget.submitAuthentication(
         email: _email,
